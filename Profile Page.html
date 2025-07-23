@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile Page</title>
+    <style>
+      body {
+        background-color: antiquewhite;
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0;
+        padding: 0;
+      }
+
+      .notebook {
+        position: relative;
+        max-width: 80%;
+        margin: 40px auto;
+        padding: 30px 40px 30px 100px; /* space for red lines */
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
+      .notebook::before,
+      .notebook::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: red;
+      }
+
+      .notebook::before {
+        left: 40px;
+      }
+
+      .notebook::after {
+        left: 50px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      li{
+        font-family: fooghtlight mt;
+        font-size: large;
+      }
+
+      section {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notebook">
+      <header>
+        <h1>Shyam's Profile</h1>
+      </header>
+      
+      <main>
+        <section>
+          <h3>Educational Details:</h3>
+          <ul>
+            <li>SSLC in EES</li>
+            <li>PUC in SJICPUC</li>
+            <li>2nd Year, Bachelor of Computer Applications</li>
+            <li>St Joseph's University, Bangalore</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Hobbies</h3>
+          <ul>
+            <li>Singing, Guitar</li>
+            <li>Coding, Graphic Design</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Achievements</h3>
+          <ul>
+            <li>Certificate in Graphic Design</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

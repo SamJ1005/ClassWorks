@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Application Form</title>
+    <style>
+      body {
+        background-color: #5fadee;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        background: #fff;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      fieldset {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #999;
+        border-radius: 5px;
+      }
+
+      legend h2 {
+        margin: 0;
+      }
+
+      .form-group {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+        align-items: center;
+      }
+
+      .form-group label {
+        width: 220px;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 5px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .short-input {
+        width: 150px;
+      }
+
+      .medium-input {
+        width: 250px;
+      }
+
+      .long-input {
+        width: 400px;
+      }
+
+      textarea {
+        width: 400px;
+        resize: vertical;
+      }
+
+      .form-group.radio {
+        align-items: flex-start;
+      }
+
+      .form-group.radio span {
+        gap: 5px;
+      }
+
+      .form-group.checkbox {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: center;
+        justify-content: space-evenly;
+        margin-top: 20px;
+      }
+
+      button[type="submit"],
+      button[type="reset"] {
+        font-family: lucida fax;
+        width: 30%;
+        padding: 12px 20px;
+        border: none;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      button[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      button[type="submit"]:hover {
+        background-color: rgb(8, 175, 8);
+      }
+
+      button[type="reset"] {
+        background-color: rgb(236, 54, 54);
+        color: white;
+      }
+
+      button[type="reset"]:hover {
+        background-color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Student Application Form</h1>
+
+    <form>
+      <fieldset>
+        <legend><h2>Personal Details :</h2></legend>
+
+        <div class="form-group">
+          <label for="name">Student Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            maxlength="25"
+            required
+            class="long-input"
+            placeholder="Enter Student's Name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="fname">Father's Name:</label>
+          <input
+            type="text"
+            id="fname"
+            name="fname"
+            maxlength="25"
+            required
+            class="long-input"
+            placeholder="Enter Father's Name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="mname">Mother's Name:</label>
+          <input
+            type="text"
+            id="mname"
+            name="mname"
+            maxlength="25"
+            required
+            class="long-input"
+            placeholder="Mother's Name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            required
+            class="medium-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Contact Number:</label>
+          <input
+            type="tel"
+            id="contact"
+            name="contact"
+            maxlength="10"
+            class="short-input"
+            required
+            placeholder="Ex:9530213547"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email ID:</label>
+          <input type="email" id="email" name="email" maxlength="25"
+          "medium-input" placeholder="Email Id Ex:abc@mail.com" />
+        </div>
+        required class=
+
+        <div class="form-group radio">
+          <label>Gender:</label>
+          <span>
+            <label
+              ><input type="radio" name="gender" value="Male" required />
+              Male</label
+            >
+            <label
+              ><input type="radio" name="gender" value="Female" required />
+              Female</label
+            >
+            <label
+              ><input type="radio" name="gender" value="Other" required />
+              Other</label
+            >
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea
+            id="address"
+            name="address"
+            rows="4"
+            placeholder="Enter your home address"
+            required
+          ></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><h2>Educational Information :</h2></legend>
+
+        <div class="form-group">
+          <label for="highschool">High School Name:</label>
+          <input
+            type="text"
+            id="highschool"
+            name="highschool"
+            maxlength="25"
+            required
+            class="long-input"
+            placeholder="Enter your high school name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="percentage">Percentage:</label>
+          <input
+            type="text"
+            id="percentage"
+            name="percentage"
+            required
+            class="short-input"
+            placeholder="Enter percentage"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year of Completion:</label>
+          <input
+            type="text"
+            id="year"
+            name="year"
+            required
+            class="short-input"
+            placeholder="Year of Completion"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="puc">Pre-University Name:</label>
+          <input
+            type="text"
+            id="puc"
+            name="puc"
+            maxlength="25"
+            required
+            class="long-input"
+            placeholder="Enter PUC name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="percentage">Percentage:</label>
+          <input
+            type="text"
+            id="percentage"
+            name="percentage"
+            required
+            class="short-input"
+            placeholder="Enter percentage"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="year2">Year of Completion:</label>
+          <input
+            type="text"
+            id="year2"
+            name="year2"
+            required
+            class="short-input"
+            placeholder="Year of completion"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="stream">Course opted in PUC:</label>
+          <select id="stream" name="stream" class="medium-input" required>
+            <option value="">--Select--</option>
+            <option value="science">Science</option>
+            <option value="commerce">Commerce</option>
+            <option value="arts">Arts</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><h2>DOCUMENTS :</h2></legend>
+
+        <div class="form-group">
+          <label for="sslc">Upload SSLC Certificate:</label>
+          <input type="file" id="sslc" name="sslc" required />
+        </div>
+
+        <div class="form-group">
+          <label for="puc">Upload 2nd PUC Certificate:</label>
+          <input type="file" id="puc" name="puc" required />
+        </div>
+
+        <div class="form-group">
+          <label for="caste">Upload Caste Certificate:</label>
+          <input type="file" id="caste" name="caste" required />
+        </div>
+
+        <div class="form-group">
+          <label for="tc">Upload Transfer Certificate:</label>
+          <input type="file" id="tc" name="tc" required />
+        </div>
+
+        <div class="form-group">
+          <label for="sports">Other Activity Certificates:</label>
+          <input type="file" id="sports" name="sports" multiple required />
+        </div>
+
+        <div class="form-group">
+          <label for="letter">Letter of Undertaking:</label>
+          <input type="file" id="letter" name="letter" required />
+        </div>
+
+        <div class="form-group checkbox">
+          <label>
+            <input type="checkbox" name="agreement" required />
+            I declare that the above information is true and trustable.
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="button-group">
+      <button type="submit">Submit Form</button>
+      <button type="reset">Clear</button>
+      </div>
+    </form>
+  </body>
+</html>
