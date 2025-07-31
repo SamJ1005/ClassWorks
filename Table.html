@@ -3,11 +3,11 @@
     <title>Time Table</title>
     <style>
       body {
-        background-color: #06ad1c;
+        background-color: #14f579;
       }
       table {
-        border-collapse: separate;
-        border-spacing: 3px;
+        padding: 10px;
+        border-spacing: 1px;
         border: white;
         margin: auto;
         font-size: medium;
@@ -15,23 +15,30 @@
       }
 
       th {
-        background-color: #1ff154;
+        color: rgb(16, 146, 5);
+        background-color: #fff;
         font-family: franklin gothic;
         font-size: x-large;
         width: 100px;
         height: 70px;
       }
       td {
-        background-color: #14f579;
+        background-color: #fff;
         font-family: franklin gothic;
         font-size: larger;
       }
+
+      td:hover {
+        background-color: #14f579;
+        color: #0602faa6 !important;
+      } 
 
       td,
       th {
         padding: 10px; 
         text-align: center;
       }
+      
       h2 {
         text-align: center;
         font-size: xx-large;
@@ -63,8 +70,8 @@
         </td>
         <td></td>
         <td>G.E</td>
-        <td rowspan="6" style="color: #ffffff; font-size: x-large; background-color: #1ff154;">Lunch <br> Break</td>
-        <td colspan="2" style="color: rgb(7, 129, 109);">
+        <td rowspan="6" style="font-size: x-large;">Lunch <br> Break</td>
+        <td colspan="2" style="color: #328357">
           DBMS Lab <br />
           B1-L3 PR,NI <br />
           B2-L2 PO,MR
