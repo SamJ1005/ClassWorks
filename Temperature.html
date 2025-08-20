@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convert Temperature with JS</title>
+    <style>
+      body {
+        background: linear-gradient(130deg, #2a7b9b, #57c785, #e0db57);
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        font-family: rockwell;
+        font-size: 20px;
+        text-align: left;
+      }
+
+      h2 {
+        font-size: 20px;
+        font-family: consolas;
+      }
+
+      input,
+      select {
+        font-family: lucida sans typewriter;
+        font-size: 17px;
+        width: 245px;
+      }
+
+      button {
+        font-family: ms reference sans serif;
+        font-size: 17px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Java Script to Convert Temperature</h2>
+    <label>Enter Temperature: </label>
+    <input
+      type="number"
+      id="temperature"
+      placeholder="Enter temperature"
+    /><br /><br />
+    <label>Conversion Type: </label>
+    <select id="unit-select">
+      <option value="celsius">Celsius To Fahrenheit</option>
+      <option value="fahrenheit">Fahrenheit to Celsius</option></select
+    ><br /><br />
+    <button onclick="convertTemperature()">Convert Temperature</button>
+    <p id="result"></p>
+
+    <script>
+      function convertTemperature() {
+        var temperature = parseFloat(
+          document.getElementById("temperature").value
+        );
+        var message = "";
+
+        if (isNaN(temperature)) {
+          message = "Invalid input. Please enter a valid number.";
+        } else {
+          var unit = document.getElementById("unit-select").value;
+          if (unit === "celsius") {
+            var fah = (temperature * 9) / 5 + 32;
+            message = temperature + "°C is " + fah.toFixed(2) + "°F";
+          } else if (unit === "fahrenheit") {
+            var cel = ((temperature - 32) * 5) / 9;
+            message = temperature + "°F is " + cel.toFixed(2) + "°C";
+          }
+        }
+
+        document.getElementById("result").innerHTML = message;
+      }
+    </script>
+  </body>
+</html>
