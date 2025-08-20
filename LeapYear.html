@@ -29,6 +29,12 @@
         margin-left: 10px; /* add some padding to the left */
       }
 
+      .container {
+        text-align: left;
+        max-width: 300px;
+        margin-left: 20px;
+      }
+
       button {
         font-family: ms reference sans serif;
         font-size: large;
@@ -37,11 +43,13 @@
     </style>
   </head>
   <body>
+    <div class="container">
     <h2>Java Script to check a Year is Leap or Not</h2>
     <label>Enter the Year :</label>
     <input type="number" id="year" placeholder="Enter a year" /><br /><br />
     <button onclick="checkLeapYear()">Check Leap Year</button>
     <p id="result"></p>
+    </div>
 
     <script>
       function checkLeapYear() {
