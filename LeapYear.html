@@ -1,60 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS For Leap Year</title>
-    <style>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leap Year</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #4a90e2, #b76df1);
+      min-height: 100vh;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 18px;
+      text-align: center;
+      padding: 2em;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 1.2em;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+
+    input {
+      font-size: 1rem;
+      padding: 0.6em;
+      width: 250px;
+      max-width: 90%;
+      box-sizing: border-box;
+      margin-bottom: 1em;
+      border: none;
+      border-radius: 6px;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 0.6em 1.5em;
+      cursor: pointer;
+      background-color: #fff;
+      color: #4a90e2;
+      border: none;
+      border-radius: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 1.5em;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
       body {
-        background: linear-gradient(150deg, #49e68a, #edff29);
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        font-family: rockwell;
-        font-size: 20px;
+        font-size: 16px;
       }
 
-      h2 {
-        font-size: 20px;
-        font-family: georgia;
-      }
-
-      input[type="number"] {
-        width: 180px;;
-        font-family: lucida sans typewriter;
-        font-size: large;
-        margin-left: 10px; /* add some padding to the left */
+      input {
+        width: 85%;
+        font-size: 0.95rem;
+        padding: 0.5em;
       }
 
       button {
-        font-family: ms reference sans serif;
-        font-size: large;
-        margin-left: 10px; /* add some padding to the left */
+        font-size: 0.95rem;
+        padding: 0.5em 1.2em;
       }
-    </style>
-  </head>
-  <body>
-    <h2>Java Script to check a Year is Leap or Not</h2>
-    <label>Enter the Year :</label>
-    <input type="number" id="year" placeholder="Enter a year" /><br /><br />
-    <button onclick="checkLeapYear()">Check Leap Year</button>
-    <p id="result"></p>
+    }
+  </style>
+</head>
+<body>
+  <h2>JavaScript Program to Check Leap Year</h2>
+  <label for="yearIn">Enter a Year:</label>
+  <input type="number" id="yearIn" placeholder="e.g. 2024" />
+  <br />
+  <button onclick="checkLeapYear()">Check</button>
+  <p id="result"></p>
 
-    <script>
-      function checkLeapYear() {
-        const year = parseInt(document.getElementById("year").value);
-        let message = "";
+  <script>
+    function checkLeapYear() {
+      const year = parseInt(document.getElementById("yearIn").value);
+      let message = "";
 
-        if (isNaN(year)) {
-          message = "Invalid input. Please enter a valid number.";
+      if (isNaN(year)) {
+        message = "❗ Invalid input. Please enter a valid year.";
+      } else {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+          message = `✅ YES, ${year} is a Leap Year.`;
         } else {
-          if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-            message = "YES it is a Leap Year.";
-          } else {
-            message = "No, it is NOT a Leap Year.";
-          }
+          message = `❌ No, ${year} is NOT a Leap Year.`;
         }
-        document.getElementById("result").innerText = message;
       }
-    </script>
-  </body>
+
+      document.getElementById("result").innerText = message;
+    }
+  </script>
+</body>
 </html>

@@ -6,98 +6,146 @@
     <title>Home Page</title>
     <style>
       html,
-      body {
-        background: linear-gradient(
-          115.31deg,
-          #f2015b 0%,
-          #ed02f1 47.92%,
-          #04038d 100%
-        );
-        background-repeat: no-repeat;
-        font-size: x-large;
-        align-items: center;
-        justify-content: center;
-        align-items: flex-start; /* Align items to the start vertically */
-        min-height: 100vh; /* Ensure body takes full viewport height */
-        padding: 5px; /* Add some padding */
-        box-sizing: border-box; /* Include padding in element's total width and height */
-      }
+body {
+  background: linear-gradient(
+    115.31deg,
+    #f2015b 0%,
+    #ed02f1 47.92%,
+    #04038d 100%
+  );
+  background-repeat: no-repeat;
+  font-size: 18px;
+  min-height: 100vh;
+  padding: 5px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
 
-      table {
-        table-layout: fixed;
-        align-items: center;
-        border-spacing: 5px;
-        margin: 50px auto;
-        margin-top: 20px;
-        width: 80%;
-      }
+h1 {
+  font-family: 'Lucida Handwriting', cursive;
+  text-align: center;
+  color: antiquewhite;
+  margin-top: 30px;
+}
 
-      td {
-        text-align: center;
-        height: 80px;
-        width: 280px;
-        border-radius: 5%;
-        padding: 20px;   
-        background-color: #9106c9;
-      }
+table {
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto;
+  border-spacing: 10px;
+  table-layout: fixed;
+  /* Make sure table cells keep equal width */
+}
 
-      h1 {
-        font-family: lucida handwriting;
-        text-align: center;
-        color: antiquewhite;
-      }
+td {
+  text-align: center;
+  height: 80px;
+  width: 33.33%;
+  border-radius: 10px;
+  padding: 15px 10px;
+  background-color: #9106c9;
+  transition: background-color 0.3s ease;
+  vertical-align: middle;
+}
 
-      a {
-        text-decoration: none;
-        font-size: 35px;
-        color: white;
-        text-align: center;
-        font-family: sogie ui;
-      }
+td:nth-child(even) {
+  background-color: #b014f8;
+}
+
+td:hover {
+  background-color: #7a05b7;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: block;
+  word-wrap: break-word;
+}
+
+@media (max-width: 900px) {
+  table {
+    width: 95%;
+  }
+}
+
+@media (max-width: 700px) {
+  td {
+    width: 50%;
+    height: 70px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 450px) {
+  td {
+    width: 100%;
+    display: block;
+    margin-bottom: 15px;
+    height: auto;
+    font-size: 1.2rem;
+    padding: 15px;
+  }
+
+  tr {
+    display: block;
+    margin: 0;
+  }
+}
 
     </style>
   </head>
   <body>
     <h1>CLASS WORKS</h1>
     <div class="container">
-    <table>
-      <tr>
-        <td>
-          <a href="Profile Page.html">Profile Page</a>
-        </td>
-        <td style="background-color: #b014f8;">
-          <a href="Reservation Form CSS.html">Reservation Form</a>
-        </td>
-        <td>
-          <a href="SForm Table CSS.html">Student Form Table</a>
-        </td>
-      </tr>
+      <table>
+        <tr>
+          <td>
+            <a href="Profile Page.html">Profile Page</a>
+          </td>
+          <td style="background-color: #b014f8">
+            <a href="Reservation Form CSS.html">Reservation Form</a>
+          </td>
+          <td>
+            <a href="SForm Table CSS.html">Student Form Table</a>
+          </td>
+        </tr>
 
-      <tr>
-        <td style="background-color: #b014f8;">
-          <a href="StudForm Field CSS.html">Student Form Fieldset</a>
-        </td>
-        <td>
-          <a href="Table.html">Time Table</a>
-        </td>
-        <td style="background-color: #b014f8;">
-          <a href="LeapYear.html">Leap Year</a>
-        </td>
-      </tr>
+        <tr>
+          <td style="background-color: #b014f8">
+            <a href="StudForm Field CSS.html">Student Form Fieldset</a>
+          </td>
+          <td>
+            <a href="Table.html">Time Table</a>
+          </td>
+          <td style="background-color: #b014f8">
+            <a href="TableHover.html">Table Hover</a>
+          </td>
+        </tr>
 
-      <tr>
-        <td>
-          <a href="Temperature.html">Temperature</a>
-        </td>
-        <td style="background-color: #b014f8;">
-          <a href="LeapYear.html">Leap Year</a>
-        </td>
-        <td >
-          <a href="Temperature.html">Temperature</a>
-        </td>
-      </tr>
-
-    </table>
+        <tr>
+          <td>
+            <a href="Temperature.html">Temperature</a>
+          </td>
+          <td style="background-color: #b014f8">
+            <a href="LeapYear.html">Leap Year</a>
+          </td>
+          <td>
+            <a href=""></a>
+          </td>
+        </tr>
+      </table>
     </div>
   </body>
 </html>
