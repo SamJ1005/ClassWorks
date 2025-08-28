@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Student Application Form</title>
     <style>
       body {
@@ -35,6 +36,8 @@
         width: 100%;
         border-collapse: collapse; /* Remove double borders */
         margin-top: 20px;
+        table-layout: fixed;
+        word-wrap: break-word;
       }
 
       table,
@@ -47,6 +50,7 @@
       td {
         padding: 12px;
         text-align: left;
+        word-wrap: break-word;
       }
 
       input[type="text"],
@@ -54,16 +58,29 @@
       input[type="tel"],
       input[type="date"],
       textarea {
-        width: calc(100% - 20px); /* Adjust width for padding */
+        width: 100%; 
         padding: 10px;
         margin: 5px 0;
         border: 2px solid silver;
         border-radius: 4px;
-        box-sizing: border-box; /* Include padding in width */
+        box-sizing: border-box; 
       }
 
-      input[type="radio"] {
+      .options-group label {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+        white-space: nowrap;
+      }
+
+      .options-group input[type="radio"],
+      .options-group input[type="checkbox"] {
         margin-right: 5px;
+      }
+
+      .options-group label {
+        margin-right: 15px;
+        white-space: nowrap;
       }
 
       label {
@@ -101,12 +118,140 @@
       input[type="reset"]:hover {
         background-color: #da190b;
       }
+      .error {
+        color: red;
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          font-size: medium;
+          padding: 10px;
+        }
+        .container {
+          padding: 20px;
+          border-radius: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        textarea {
+          width: 100%;
+        }
+        input[type="submit"],
+        input[type="reset"] {
+          padding: 10px 20px;
+          font-size: 14px;
+          margin: 5px 0;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
     </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        // Input fields
+        const studentName = document.getElementById("studentName");
+        const fatherName = document.getElementById("fatherName");
+        const motherName = document.getElementById("motherName");
+        const phone = document.getElementById("phone");
+        const pincode = document.getElementById("pincode");
+        const state = document.getElementById("state");
+        const email = document.getElementById("email");
+
+        // Helper functions
+        const isOnlyLetters = (value) => /^[A-Za-z\s]+$/.test(value);
+        const isOnlyDigits = (value) => /^\d+$/.test(value);
+        const showError = (element, message) => {
+          let errorSpan = element.nextElementSibling;
+          if (!errorSpan || !errorSpan.classList.contains("error")) {
+            errorSpan = document.createElement("span");
+            errorSpan.classList.add("error");
+            element.parentNode.appendChild(errorSpan);
+          }
+          errorSpan.textContent = message;
+        };
+        const clearError = (element) => {
+          let errorSpan = element.nextElementSibling;
+          if (errorSpan && errorSpan.classList.contains("error")) {
+            errorSpan.textContent = "";
+          }
+        };
+
+        // Live validations
+        const validateNameField = (input) => {
+          input.value = input.value.replace(/[^A-Za-z\s]/g, "");
+          if (input.value.trim().length < 3) {
+            showError(input, "Must be at least 3 characters and only letters.");
+          } else {
+            clearError(input);
+          }
+        };
+
+        studentName.addEventListener("input", () =>
+          validateNameField(studentName)
+        );
+        fatherName.addEventListener("input", () =>
+          validateNameField(fatherName)
+        );
+        motherName.addEventListener("input", () =>
+          validateNameField(motherName)
+        );
+        state.addEventListener("input", () => validateNameField(state));
+
+        phone.addEventListener("input", () => {
+          phone.value = phone.value.replace(/\D/g, "");
+          if (phone.value.length !== 10) {
+            showError(phone, "Phone number must be exactly 10 digits.");
+          } else {
+            clearError(phone);
+          }
+        });
+
+        pincode.addEventListener("input", () => {
+          pincode.value = pincode.value.replace(/\D/g, "");
+          if (pincode.value.length !== 6) {
+            showError(pincode, "Pincode must be exactly 6 digits.");
+          } else {
+            clearError(pincode);
+          }
+        });
+
+        email.addEventListener("input", () => {
+          const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!pattern.test(email.value.trim())) {
+            showError(email, "Enter a valid email address.");
+          } else {
+            clearError(email);
+          }
+        });
+
+        form.addEventListener("submit", (e) => {
+          const errors = form.querySelectorAll(".error");
+          let hasError = false;
+          errors.forEach((err) => {
+            if (err.textContent !== "") hasError = true;
+          });
+
+          if (hasError) {
+            e.preventDefault();
+            alert("Please fix the errors before submitting the form.");
+          } else {
+            e.preventDefault(); // Prevent actual submission for demo
+            alert("✅Form submitted successfully!");
+            form.reset();
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container">
       <h1>APPLICATION FORM</h1>
-      <form method="post" action="process.php">
+      <form>
         <table>
           <tr>
             <td><label for="studentName">Student's name:</label></td>
@@ -116,9 +261,10 @@
                 id="studentName"
                 name="sname"
                 maxlength="50"
-                size="20" 
+                size="20"
                 placeholder="Enter student's full name"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -133,6 +279,7 @@
                 required
                 placeholder="Enter father's full name"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -147,6 +294,7 @@
                 required
                 placeholder="Enter mother's full name"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -155,19 +303,19 @@
           </tr>
           <tr>
             <td>Gender:</td>
-            <td>
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                value="Male"
-                required
-              />
-              <label for="male">Male</label>
-              <input type="radio" id="female" name="gender" value="Female" />
-              <label for="female">Female</label>
-              <input type="radio" id="other" name="gender" value="Prefer not to say">
-              <label for="other">Prefer not to say</label>
+            <td class="options-group">
+              <label
+                ><input type="radio" name="gender" value="Male" required />
+                Male</label
+              >
+              <label
+                ><input type="radio" name="gender" value="Female" />
+                Female</label
+              >
+              <label
+                ><input type="radio" name="gender" value="Prefer not to say" />
+                Prefer not to say</label
+              >
             </td>
           </tr>
           <tr>
@@ -182,6 +330,7 @@
                 required
                 placeholder="Enter email address"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -197,6 +346,7 @@
                 title="Please enter a 10-digit phone number"
                 required
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -225,6 +375,7 @@
                 required
                 placeholder="Enter 6-digit pincode"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -239,6 +390,7 @@
                 required
                 placeholder="Enter your state"
               />
+              <span class="error"></span>
             </td>
           </tr>
           <tr>
@@ -268,21 +420,28 @@
           </tr>
           <tr>
             <td>Choose Course:</td>
-            <td>
-              <input type="checkbox" id="bcom" name="course" value="BCom" required/>
-              <label for="bcom">BCom</label>
-              <input type="checkbox" id="bca" name="course" value="BCA" />
-              <label for="bca">BCA</label>
-              <input type="checkbox" id="bsc" name="course" value="BSc" />
-              <label for="bsc">BSc</label>
-              <input type="checkbox" id="ba" name="course" value="BA" />
-              <label for="ba">BA</label>
+            <td class="options-group">
+              <label for="bcom"><input
+                type="checkbox"
+                id="bcom"
+                name="course"
+                value="BCom"
+                required
+              />BCom</label>
+
+              <label for="bca"><input type="checkbox" id="bca" name="course" value="BCA" />
+              BCA</label>
+
+              <label for="bsc"><input type="checkbox" id="bsc" name="course" value="BSc" />
+              BSc</label>
+
+              <label for="ba"></label><input type="checkbox" id="ba" name="course" value="BA" />BA</label>
             </td>
           </tr>
           <tr>
             <td colspan="2" class="form-actions">
-              <input type="submit" value="Submit" />
               <input type="reset" value="Reset" />
+              <input type="submit" value="Submit" />
             </td>
           </tr>
         </table>
