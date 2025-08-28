@@ -1,56 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Student Application Form</title>
-    <style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Application Form</title>
+  <style>
+    body {
+      background-color: lightsalmon;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      font-size: larger;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+
+    table,
+    th,
+    td {
+      border: 2px solid #ccc;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 2px solid silver;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .options-group label {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      white-space: nowrap;
+    }
+
+    .options-group input[type="radio"],
+    .options-group input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    .options-group label {
+      margin-right: 15px;
+      white-space: nowrap;
+    }
+
+    label {
+      display: inline-block;
+      margin-right: 15px;
+    }
+
+    .form-actions {
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      background-color: #28bd02;
+      font-weight: bold;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="reset"] {
+      background-color: #f53b2e;
+    }
+
+    input[type="submit"]:hover {
+      background-color: green;
+    }
+
+    input[type="reset"]:hover {
+      background-color: #da190b;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 480px) {
       body {
-        background-color: lightsalmon;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-          sans-serif;
-        font-size: larger;
-        display: flex; /* Use flexbox for centering */
-        justify-content: center;
-        align-items: flex-start; /* Align items to the start vertically */
-        min-height: 100vh; /* Ensure body takes full viewport height */
-        padding: 5px; /* Add some padding */
-        box-sizing: border-box; /* Include padding in element's total width and height */
+        font-size: medium;
+        padding: 10px;
       }
 
       .container {
-        background-color: white; /* Add a background to the form container */
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        max-width: 700px; /* Limit form width */
-        width: 100%;
-      }
-
-      h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 25px;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse; /* Remove double borders */
-        margin-top: 20px;
-        table-layout: fixed;
-        word-wrap: break-word;
-      }
-
-      table,
-      th,
-      td {
-        border: 2px solid #ccc; /* Lighter border */
-      }
-
-      th,
-      td {
-        padding: 12px;
-        text-align: left;
-        word-wrap: break-word;
+        padding: 20px;
+        border-radius: 10px;
       }
 
       input[type="text"],
@@ -58,394 +141,227 @@
       input[type="tel"],
       input[type="date"],
       textarea {
-        width: 100%; 
-        padding: 10px;
-        margin: 5px 0;
-        border: 2px solid silver;
-        border-radius: 4px;
-        box-sizing: border-box; 
-      }
-
-      .options-group label {
-        display: flex;
-        align-items: center;
-        margin-right: 15px;
-        white-space: nowrap;
-      }
-
-      .options-group input[type="radio"],
-      .options-group input[type="checkbox"] {
-        margin-right: 5px;
-      }
-
-      .options-group label {
-        margin-right: 15px;
-        white-space: nowrap;
-      }
-
-      label {
-        display: inline-block;
-        margin-right: 15px;
-      }
-
-      .form-actions {
-        text-align: center;
-        padding-top: 20px;
+        width: 100%;
       }
 
       input[type="submit"],
       input[type="reset"] {
-        background-color: #28bd02; /* Green submit button */
-        font-weight: bold;
-        color: white;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin: 0 10px;
-        transition: background-color 0.3s ease;
+        padding: 10px 20px;
+        font-size: 14px;
+        margin: 5px 0;
+        width: 100%;
+        box-sizing: border-box;
       }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
 
-      input[type="reset"] {
-        background-color: #f53b2e; /* Red reset button */
-      }
+      const studentName = document.getElementById("studentName");
+      const fatherName = document.getElementById("fatherName");
+      const motherName = document.getElementById("motherName");
+      const phone = document.getElementById("phone");
+      const pincode = document.getElementById("pincode");
+      const state = document.getElementById("state");
+      const email = document.getElementById("email");
 
-      input[type="submit"]:hover {
-        background-color: green;
-      }
-
-      input[type="reset"]:hover {
-        background-color: #da190b;
-      }
-      .error {
-        color: red;
-        font-size: 0.9em;
-      }
-
-      @media (max-width: 480px) {
-        body {
-          font-size: medium;
-          padding: 10px;
+      const isOnlyLetters = (value) => /^[A-Za-z\s]+$/.test(value);
+      const isOnlyDigits = (value) => /^\d+$/.test(value);
+      const showError = (element, message) => {
+        let errorSpan = element.nextElementSibling;
+        if (!errorSpan || !errorSpan.classList.contains("error")) {
+          errorSpan = document.createElement("span");
+          errorSpan.classList.add("error");
+          element.parentNode.appendChild(errorSpan);
         }
-        .container {
-          padding: 20px;
-          border-radius: 10px;
+        errorSpan.textContent = message;
+      };
+      const clearError = (element) => {
+        let errorSpan = element.nextElementSibling;
+        if (errorSpan && errorSpan.classList.contains("error")) {
+          errorSpan.textContent = "";
         }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        textarea {
-          width: 100%;
+      };
+
+      const validateNameField = (input) => {
+        input.value = input.value.replace(/[^A-Za-z\s]/g, "");
+        if (input.value.trim().length < 3) {
+          showError(input, "Must be at least 3 characters and only letters.");
+        } else {
+          clearError(input);
         }
-        input[type="submit"],
-        input[type="reset"] {
-          padding: 10px 20px;
-          font-size: 14px;
-          margin: 5px 0;
-          width: 100%;
-          box-sizing: border-box;
+      };
+
+      studentName.addEventListener("input", () =>
+        validateNameField(studentName)
+      );
+      fatherName.addEventListener("input", () =>
+        validateNameField(fatherName)
+      );
+      motherName.addEventListener("input", () =>
+        validateNameField(motherName)
+      );
+      state.addEventListener("input", () => validateNameField(state));
+
+      phone.addEventListener("input", () => {
+        phone.value = phone.value.replace(/\D/g, "");
+        if (phone.value.length !== 10) {
+          showError(phone, "Phone number must be exactly 10 digits.");
+        } else {
+          clearError(phone);
         }
-      }
-    </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-
-        // Input fields
-        const studentName = document.getElementById("studentName");
-        const fatherName = document.getElementById("fatherName");
-        const motherName = document.getElementById("motherName");
-        const phone = document.getElementById("phone");
-        const pincode = document.getElementById("pincode");
-        const state = document.getElementById("state");
-        const email = document.getElementById("email");
-
-        // Helper functions
-        const isOnlyLetters = (value) => /^[A-Za-z\s]+$/.test(value);
-        const isOnlyDigits = (value) => /^\d+$/.test(value);
-        const showError = (element, message) => {
-          let errorSpan = element.nextElementSibling;
-          if (!errorSpan || !errorSpan.classList.contains("error")) {
-            errorSpan = document.createElement("span");
-            errorSpan.classList.add("error");
-            element.parentNode.appendChild(errorSpan);
-          }
-          errorSpan.textContent = message;
-        };
-        const clearError = (element) => {
-          let errorSpan = element.nextElementSibling;
-          if (errorSpan && errorSpan.classList.contains("error")) {
-            errorSpan.textContent = "";
-          }
-        };
-
-        // Live validations
-        const validateNameField = (input) => {
-          input.value = input.value.replace(/[^A-Za-z\s]/g, "");
-          if (input.value.trim().length < 3) {
-            showError(input, "Must be at least 3 characters and only letters.");
-          } else {
-            clearError(input);
-          }
-        };
-
-        studentName.addEventListener("input", () =>
-          validateNameField(studentName)
-        );
-        fatherName.addEventListener("input", () =>
-          validateNameField(fatherName)
-        );
-        motherName.addEventListener("input", () =>
-          validateNameField(motherName)
-        );
-        state.addEventListener("input", () => validateNameField(state));
-
-        phone.addEventListener("input", () => {
-          phone.value = phone.value.replace(/\D/g, "");
-          if (phone.value.length !== 10) {
-            showError(phone, "Phone number must be exactly 10 digits.");
-          } else {
-            clearError(phone);
-          }
-        });
-
-        pincode.addEventListener("input", () => {
-          pincode.value = pincode.value.replace(/\D/g, "");
-          if (pincode.value.length !== 6) {
-            showError(pincode, "Pincode must be exactly 6 digits.");
-          } else {
-            clearError(pincode);
-          }
-        });
-
-        email.addEventListener("input", () => {
-          const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!pattern.test(email.value.trim())) {
-            showError(email, "Enter a valid email address.");
-          } else {
-            clearError(email);
-          }
-        });
-
-        form.addEventListener("submit", (e) => {
-          const errors = form.querySelectorAll(".error");
-          let hasError = false;
-          errors.forEach((err) => {
-            if (err.textContent !== "") hasError = true;
-          });
-
-          if (hasError) {
-            e.preventDefault();
-            alert("Please fix the errors before submitting the form.");
-          } else {
-            e.preventDefault(); // Prevent actual submission for demo
-            alert("✅Form submitted successfully!");
-            form.reset();
-          }
-        });
       });
-    </script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>APPLICATION FORM</h1>
-      <form>
-        <table>
-          <tr>
-            <td><label for="studentName">Student's name:</label></td>
-            <td>
-              <input
-                type="text"
-                id="studentName"
-                name="sname"
-                maxlength="50"
-                size="20"
-                placeholder="Enter student's full name"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="fatherName">Father's name:</label></td>
-            <td>
-              <input
-                type="text"
-                id="fatherName"
-                name="fname"
-                maxlength="50"
-                size="40"
-                required
-                placeholder="Enter father's full name"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="motherName">Mother's name:</label></td>
-            <td>
-              <input
-                type="text"
-                id="motherName"
-                name="mname"
-                maxlength="50"
-                size="40"
-                required
-                placeholder="Enter mother's full name"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="dob">Date of Birth:</label></td>
-            <td><input type="date" id="dob" name="dob" required /></td>
-          </tr>
-          <tr>
-            <td>Gender:</td>
-            <td class="options-group">
-              <label
-                ><input type="radio" name="gender" value="Male" required />
-                Male</label
-              >
-              <label
-                ><input type="radio" name="gender" value="Female" />
-                Female</label
-              >
-              <label
-                ><input type="radio" name="gender" value="Prefer not to say" />
-                Prefer not to say</label
-              >
-            </td>
-          </tr>
-          <tr>
-            <td><label for="email">Email Id:</label></td>
-            <td>
-              <input
-                type="email"
-                id="email"
-                name="mail"
-                maxlength="50"
-                size="30"
-                required
-                placeholder="Enter email address"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="phone">Phone No.:</label></td>
-            <td>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                maxlength="10"
-                pattern="[0-9]{10}"
-                placeholder="e.g., 9876543210"
-                title="Please enter a 10-digit phone number"
-                required
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="address">Address:</label></td>
-            <td>
-              <textarea
-                id="address"
-                name="address"
-                rows="3"
-                cols="30"
-                required
-                placeholder="Enter full address"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="pincode">Pincode:</label></td>
-            <td>
-              <input
-                type="text"
-                id="pincode"
-                name="pincode"
-                maxlength="6"
-                pattern="[0-9]{6}"
-                title="Please enter a 6-digit pincode"
-                required
-                placeholder="Enter 6-digit pincode"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="state">State:</label></td>
-            <td>
-              <input
-                type="text"
-                id="state"
-                name="state"
-                maxlength="50"
-                size="25"
-                required
-                placeholder="Enter your state"
-              />
-              <span class="error"></span>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="country">Country:</label></td>
-            <td>
-              <input
-                type="text"
-                id="country"
-                name="country"
-                value="INDIA"
-                readonly
-              />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="hobbies">Hobbies:</label></td>
-            <td>
-              <input
-                type="text"
-                id="hobbies"
-                name="hobbies"
-                maxlength="100"
-                size="30"
-                placeholder="e.g., Reading, Sports, Music"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Choose Course:</td>
-            <td class="options-group">
-              <label for="bcom"><input
-                type="checkbox"
-                id="bcom"
-                name="course"
-                value="BCom"
-                required
-              />BCom</label>
 
-              <label for="bca"><input type="checkbox" id="bca" name="course" value="BCA" />
-              BCA</label>
+      pincode.addEventListener("input", () => {
+        pincode.value = pincode.value.replace(/\D/g, "");
+        if (pincode.value.length !== 6) {
+          showError(pincode, "Pincode must be exactly 6 digits.");
+        } else {
+          clearError(pincode);
+        }
+      });
 
-              <label for="bsc"><input type="checkbox" id="bsc" name="course" value="BSc" />
-              BSc</label>
+      email.addEventListener("input", () => {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!pattern.test(email.value.trim())) {
+          showError(email, "Enter a valid email address.");
+        } else {
+          clearError(email);
+        }
+      });
 
-              <label for="ba"></label><input type="checkbox" id="ba" name="course" value="BA" />BA</label>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" class="form-actions">
-              <input type="reset" value="Reset" />
-              <input type="submit" value="Submit" />
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
-  </body>
+      form.addEventListener("submit", (e) => {
+        const errors = form.querySelectorAll(".error");
+        let hasError = false;
+        errors.forEach((err) => {
+          if (err.textContent !== "") hasError = true;
+        });
+
+        if (hasError) {
+          e.preventDefault();
+          alert("Please fix the errors before submitting the form.");
+        } else {
+          e.preventDefault();
+          alert("✅Form submitted successfully!");
+          form.reset();
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>APPLICATION FORM</h1>
+    <form>
+      <table>
+        <tr>
+          <td><label for="studentName">Student's name:</label></td>
+          <td>
+            <input type="text" id="studentName" name="sname" maxlength="50" size="20"
+              placeholder="Enter student's full name" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="fatherName">Father's name:</label></td>
+          <td>
+            <input type="text" id="fatherName" name="fname" maxlength="50" size="40" required
+              placeholder="Enter father's full name" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="motherName">Mother's name:</label></td>
+          <td>
+            <input type="text" id="motherName" name="mname" maxlength="50" size="40" required
+              placeholder="Enter mother's full name" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="dob">Date of Birth:</label></td>
+          <td><input type="date" id="dob" name="dob" required /></td>
+        </tr>
+        <tr>
+          <td>Gender:</td>
+          <td class="options-group">
+            <label><input type="radio" name="gender" value="Male" required />Male</label>
+            <label><input type="radio" name="gender" value="Female" />Female</label>
+            <label><input type="radio" name="gender" value="Prefer not to say" />Prefer not to say</label>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="email">Email Id:</label></td>
+          <td>
+            <input type="email" id="email" name="mail" maxlength="50" size="30" required
+              placeholder="Enter email address" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="phone">Phone No.:</label></td>
+          <td>
+            <input type="tel" id="phone" name="phone" maxlength="10" pattern="[0-9]{10}" placeholder="e.g., 9876543210"
+              title="Please enter a 10-digit phone number" required />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="address">Address:</label></td>
+          <td>
+            <textarea id="address" name="address" rows="3" cols="30" required
+              placeholder="Enter full address"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="pincode">Pincode:</label></td>
+          <td>
+            <input type="text" id="pincode" name="pincode" maxlength="6" pattern="[0-9]{6}"
+              title="Please enter a 6-digit pincode" required placeholder="Enter 6-digit pincode" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="state">State:</label></td>
+          <td>
+            <input type="text" id="state" name="state" maxlength="50" size="25" required
+              placeholder="Enter your state" />
+            <span class="error"></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="country">Country:</label></td>
+          <td>
+            <input type="text" id="country" name="country" value="INDIA" readonly />
+          </td>
+        </tr>
+        <tr>
+          <td><label for="hobbies">Hobbies:</label></td>
+          <td>
+            <input type="text" id="hobbies" name="hobbies" maxlength="100" size="30"
+              placeholder="e.g., Reading, Sports, Music" />
+          </td>
+        </tr>
+        <tr>
+          <td>Choose Course:</td>
+          <td class="options-group">
+            <label for="bcom"><input type="checkbox" id="bcom" name="course" value="BCom" required />BCom</label>
+            <label for="bca"><input type="checkbox" id="bca" name="course" value="BCA" />BCA</label>
+            <label for="bsc"><input type="checkbox" id="bsc" name="course" value="BSc" />BSc</label>
+            <label for="ba"></label><input type="checkbox" id="ba" name="course" value="BA" />BA</label>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="form-actions">
+            <input type="reset" value="Reset" />
+            <input type="submit" value="Submit" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</body>
+
 </html>
