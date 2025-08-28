@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Computer Class Reservation Form</title>
     <style>
       body {
-        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-family: Georgia, "Times New Roman", Times, serif;
         background-color: #7ef5ab;
         padding: 30px;
       }
 
       .form-container {
+        width: 90%;
         max-width: 600px;
         margin: auto;
+        padding: 20px;
         background-color: rgb(199, 247, 243);
-        padding: 30px;
         border-radius: 35px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
@@ -38,14 +40,6 @@
       .header-text h5 {
         text-align: center;
         margin: 0;
-      }
-
-      hr {
-        position: static;
-      }
-
-      .form-container:before hr {
-        background-color: #4caf50;
       }
 
       h2 {
@@ -81,6 +75,10 @@
         box-sizing: border-box;
       }
 
+      input[type="tel"] {
+        width: 40% !important; /* override inline style */
+        height: 35px;
+      }
       textarea {
         font-size: 30%;
         width: 100%;
@@ -107,10 +105,12 @@
         border-radius: 20px;
         cursor: pointer;
       }
+
       .gender-group label {
         display: inline-block;
         margin-right: 15px;
       }
+
       .gender-group input[type="radio"] {
         margin-right: 5px;
       }
@@ -132,6 +132,37 @@
       input[type="reset"]:hover {
         background-color: red;
       }
+
+      .error {
+        color: red;
+        font-size: 0.9em;
+      }
+
+      @media screen and (max-width: 600px) {
+        .form-container {
+          padding: 15px;
+          border-radius: 15px;
+        }
+
+        .button-group {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+          width: 100%;
+        }
+
+        .header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .header img {
+          max-width: 60px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -143,9 +174,9 @@
           <h5>"The great aim of education is not knowledge, but action"</h5>
         </div>
       </div>
-      <hr size="1" width="100%">
+      <hr size="1" width="100%" />
 
-      <form action="#" method="post">
+      <form id="reservation-form" action="#" method="post">
         <label for="name">Full Name:</label>
         <input
           type="text"
@@ -155,6 +186,7 @@
           required
           placeholder="Enter your name"
         />
+        <span class="error" id="name-error"></span>
 
         <label for="email">Email Address:</label>
         <input
@@ -165,6 +197,7 @@
           required
           placeholder="Enter your e-mail address"
         />
+        <span class="error" id="email-error"></span>
 
         <label for="address">Address:</label>
         <input
@@ -175,6 +208,7 @@
           required
           placeholder="Enter your home address"
         />
+        <span class="error" id="address-error"></span>
 
         <label for="mobile">Phone Number:</label>
         <input
@@ -182,13 +216,11 @@
           id="mobile"
           name="mobile"
           required
-          pattern="\d{10}"
-          title="Please enter a 10-digit phone number (digits only)."
           inputmode="numeric"
           maxlength="10"
-          style="height: 35px; width: 30%;"
           placeholder="Enter 10-digit phone no."
         />
+        <span class="error" id="mobile-error"></span>
 
         <label>Gender:</label>
         <div class="gender-group">
@@ -208,6 +240,7 @@
           <option value="graphic">Graphic Design</option>
           <option value="data">Data Science</option>
         </select>
+        <span class="error" id="course-error"></span>
 
         <label for="schedule">Preferred Schedule:</label>
         <select id="schedule" name="schedule" required>
@@ -216,6 +249,7 @@
           <option value="afternoon">Afternoon (1 PM - 3 PM)</option>
           <option value="evening">Evening (6 PM - 8 PM)</option>
         </select>
+        <span class="error" id="schedule-error"></span>
 
         <div class="button-group">
           <input type="reset" value="Reset Form" />
@@ -223,5 +257,58 @@
         </div>
       </form>
     </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const addressInput = document.getElementById("address");
+        const phoneInput = document.getElementById("mobile");
+        const courseSelect = document.getElementById("course");
+        const scheduleSelect = document.getElementById("schedule");
+
+        const nameError = document.getElementById("name-error");
+        const emailError = document.getElementById("email-error");
+        const addressError = document.getElementById("address-error");
+        const phoneError = document.getElementById("mobile-error");
+        const courseError = document.getElementById("course-error");
+        const scheduleError = document.getElementById("schedule-error");
+
+        nameInput.addEventListener("input", () => {
+          nameInput.value = nameInput.value.replace(/\d/g, "");
+
+          const nameValue = nameInput.value.trim();
+          const onlyLetters = /^[A-Za-z\s]+$/;
+
+          if (nameValue === "") {
+            nameError.textContent = "Name cannot be empty.";
+          } else if (nameValue.length < 3) {
+            nameError.textContent = "Name must be at least 3 characters long.";
+          } else {
+            nameError.textContent = "";
+          }
+        });
+
+        emailInput.addEventListener("input", () => {
+          const pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+          emailError.textContent = !pattern.test(emailInput.value.trim())
+            ? "Please enter a valid email."
+            : "";
+        });
+
+        addressInput.addEventListener("input", () => {
+          addressError.textContent =
+            addressInput.value.trim() === "" ? "Address cannot be empty." : "";
+        });
+
+        phoneInput.addEventListener("input", () => {
+          phoneInput.value = phoneInput.value.replace(/\D/g, "");
+          phoneError.textContent =
+            phoneInput.value.length !== 10
+              ? "Phone number must be exactly 10 digits."
+              : "";
+        });
+      });
+    </script>
   </body>
 </html>
