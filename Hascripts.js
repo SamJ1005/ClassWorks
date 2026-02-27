@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         habits = JSON.parse(localStorage.getItem(storageKey)) || [];
     }
 
-
     // Assign colors to any existing habits that might literally not have one
     habits.forEach((habit, index) => {
         if (!habit.color) {
@@ -93,6 +92,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     monthDisplay.textContent = monthName;
+
+    // Wait until data is loaded, then render!
+    generateHeader();
+    renderAllHabits();
 
     async function saveHabits() {
         localStorage.setItem(storageKey, JSON.stringify(habits));
@@ -336,8 +339,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Initialize Check
-    generateHeader();
-    renderAllHabits();
+    // (Moved to top after Firebase fetch)
 
     function checkReminder() {
         if (habits.length === 0) return;
