@@ -52,6 +52,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let habits = [];
 
+    // Determine current month and days
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const monthName = today.toLocaleString('default', { month: 'long', year: 'numeric' });
+    const monthId = `${currentYear}-${currentMonth}`;
+
     function initializeOrRenderHabits(newData) {
         habits = newData;
 
@@ -62,15 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // Determine current month and days
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        const monthName = today.toLocaleString('default', { month: 'long', year: 'numeric' });
-
         // For storing month ID to reset habits when month changes
-        const monthId = `${currentYear}-${currentMonth}`;
         let savedMonthId = localStorage.getItem(monthIdKey);
         if (savedMonthId !== monthId) {
             // New month, clear checkboxes but keep habits
