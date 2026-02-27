@@ -11,7 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const vibrantColors = ["#3b82f6", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b", "#10b981", "#06b6d4", "#a855f7", "#ef4444", "#14b8a6"];
 
-    let habits = JSON.parse(localStorage.getItem('habits')) || [];
+    const currentUser = sessionStorage.getItem('habit_currentUser');
+    if (!currentUser) {
+        window.location.href = 'HabitLogin.html';
+        return;
+    }
+
+    const welcomeEl = document.getElementById('welcome-user');
+    if (welcomeEl) {
+        welcomeEl.textContent = `User: ${currentUser}`;
+    }
+
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('habit_currentUser');
+            window.location.href = 'HabitLogin.html';
+        });
+    }
+
+    const storageKey = `habits_${currentUser}`;
+    const monthIdKey = `monthId_${currentUser}`;
+
+    let habits = JSON.parse(localStorage.getItem(storageKey)) || [];
 
     // Assign colors to any existing habits that might literally not have one
     habits.forEach((habit, index) => {
@@ -29,18 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // For storing month ID to reset habits when month changes
     const monthId = `${currentYear}-${currentMonth}`;
-    let savedMonthId = localStorage.getItem('monthId');
+    let savedMonthId = localStorage.getItem(monthIdKey);
     if (savedMonthId !== monthId) {
         // New month, clear checkboxes but keep habits
         habits.forEach(h => h.days = Array(daysInMonth).fill(false));
-        localStorage.setItem('monthId', monthId);
+        localStorage.setItem(monthIdKey, monthId);
         saveHabits();
     }
 
     monthDisplay.textContent = monthName;
 
     function saveHabits() {
-        localStorage.setItem('habits', JSON.stringify(habits));
+        localStorage.setItem(storageKey, JSON.stringify(habits));
     }
 
     function createEmptyDays() {
@@ -276,4 +298,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Check
     generateHeader();
     renderAllHabits();
+
+    setTimeout(() => {
+        const tableScroll = document.querySelector('.table-scroll');
+        const headerDaysContainer = document.querySelector('.header-row .days-container');
+        if (tableScroll && headerDaysContainer) {
+            const todayDate = today.getDate();
+            const targetIndex = Math.max(0, todayDate - 3);
+            const dayCols = headerDaysContainer.querySelectorAll('.day-col');
+            if (dayCols.length > targetIndex) {
+                const targetCol = dayCols[targetIndex];
+                const stickyCol = document.querySelector('.habit-name-col');
+                const stickyWidth = stickyCol ? stickyCol.offsetWidth : 160;
+                tableScroll.scrollTo({ left: targetCol.offsetLeft - stickyWidth, behavior: 'smooth' });
+            }
+        }
+    }, 100);
 });

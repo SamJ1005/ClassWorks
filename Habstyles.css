@@ -93,6 +93,7 @@ header {
     font-weight: 700;
     background: linear-gradient(135deg, #fff, var(--text-muted));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.25rem;
 }
@@ -103,6 +104,43 @@ header {
     font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
+}
+
+.user-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#welcome-user {
+    color: var(--text-muted);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    font-weight: 500;
+}
+
+#logout-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: clamp(0.4rem, 1.5vw, 0.6rem) clamp(0.8rem, 2vw, 1.2rem);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#logout-btn:hover {
+    background: var(--danger);
+    color: white;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
 .card {
@@ -172,6 +210,16 @@ header {
 .habits-table-wrapper {
     padding: clamp(0.5rem, 2vw, 1rem);
     overflow: hidden;
+    position: relative;
+}
+
+.calendar-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    margin-top: 0.5rem;
+    font-style: italic;
+    opacity: 1.0;
 }
 
 .table-scroll {
@@ -201,6 +249,7 @@ header {
     display: flex;
     flex-direction: column;
     min-width: max-content;
+    position: relative;
 }
 
 .habit-row {
@@ -225,20 +274,17 @@ header {
 }
 
 .header-row .habit-name-col {
-    background: transparent;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
     align-items: flex-end;
     padding-bottom: 1rem;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
 }
 
 .habit-name-col {
-    width: clamp(220px, 30vw, 380px);
+    width: clamp(160px, 38vw, 380px);
     /* Dynamic width based on screen */
     flex-shrink: 0;
     display: flex;

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Habstyles.css">
+    <style>
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .login-card {
+            max-width: 400px;
+            width: 100%;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: clamp(0.8rem, 2vw, 1rem);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="app-container login-container">
+        <div class="card login-card">
+            <h1 class="login-title">Welcome</h1>
+            <p class="login-subtitle">Sign in to continue your habit journey</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" autocomplete="off" required>
+                    <div id="error-msg" class="error-message">Please enter a valid username.</div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password (Any password works)</label>
+                    <input type="password" id="password" placeholder="Enter any password" required>
+                </div>
+                <button type="submit" class="login-btn">Sign In / Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('username').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+
+            if (usernameInput.length < 3) {
+                errorMsg.textContent = "Username must be at least 3 characters long.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // By storing the username in sessionStorage, we simulate logging in as that particular user
+            sessionStorage.setItem('habit_currentUser', usernameInput);
+            window.location.href = 'Habit.html';
+        });
+
+        // Auto-redirect if already logged in previously
+        if (sessionStorage.getItem('habit_currentUser')) {
+            window.location.href = 'Habit.html';
+        }
+    </script>
+</body>
+
+</html>
