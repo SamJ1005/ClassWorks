@@ -1,5 +1,5 @@
 import { db } from './firebase-config.js';
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     const monthDisplay = document.getElementById('month-display');
@@ -51,51 +51,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     const monthIdKey = currentUser ? `monthId_${currentUser}` : 'monthId_guest';
 
     let habits = [];
-    if (currentUser) {
-        try {
-            const userSnap = await getDoc(doc(db, "users", currentUser));
-            if (userSnap.exists() && userSnap.data().habits) {
-                habits = userSnap.data().habits;
-            } else {
-                habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    function initializeOrRenderHabits(newData) {
+        habits = newData;
+
+        // Assign colors to any existing habits that might literally not have one
+        habits.forEach((habit, index) => {
+            if (!habit.color) {
+                habit.color = vibrantColors[index % vibrantColors.length];
             }
-        } catch (error) {
-            console.error("Firebase read error", error);
-            habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+        });
+
+        // Determine current month and days
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const monthName = today.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+        // For storing month ID to reset habits when month changes
+        const monthId = `${currentYear}-${currentMonth}`;
+        let savedMonthId = localStorage.getItem(monthIdKey);
+        if (savedMonthId !== monthId) {
+            // New month, clear checkboxes but keep habits
+            habits.forEach(h => h.days = Array(daysInMonth).fill(false));
+            localStorage.setItem(monthIdKey, monthId);
+            saveHabits();
         }
+
+        monthDisplay.textContent = monthName;
+
+        // Render the screen
+        generateHeader();
+        renderAllHabits();
+    }
+
+    if (currentUser) {
+        // Real-time Cloud Sync Listener!
+        onSnapshot(doc(db, "users", currentUser), (docSnap) => {
+            // If the write was generated locally by THIS exact page, ignore redrawing so checkboxes don't un-focus 
+            if (docSnap.metadata.hasPendingWrites) {
+                return;
+            }
+
+            if (docSnap.exists() && docSnap.data().habits) {
+                initializeOrRenderHabits(docSnap.data().habits);
+            } else {
+                initializeOrRenderHabits(JSON.parse(localStorage.getItem(storageKey)) || []);
+            }
+        }, (error) => {
+            console.error("Firebase sync error", error);
+            initializeOrRenderHabits(JSON.parse(localStorage.getItem(storageKey)) || []);
+        });
     } else {
-        habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+        // Guest Mode fallback
+        initializeOrRenderHabits(JSON.parse(localStorage.getItem(storageKey)) || []);
     }
-
-    // Assign colors to any existing habits that might literally not have one
-    habits.forEach((habit, index) => {
-        if (!habit.color) {
-            habit.color = vibrantColors[index % vibrantColors.length];
-        }
-    });
-
-    // Determine current month and days
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const monthName = today.toLocaleString('default', { month: 'long', year: 'numeric' });
-
-    // For storing month ID to reset habits when month changes
-    const monthId = `${currentYear}-${currentMonth}`;
-    let savedMonthId = localStorage.getItem(monthIdKey);
-    if (savedMonthId !== monthId) {
-        // New month, clear checkboxes but keep habits
-        habits.forEach(h => h.days = Array(daysInMonth).fill(false));
-        localStorage.setItem(monthIdKey, monthId);
-        saveHabits();
-    }
-
-    monthDisplay.textContent = monthName;
-
-    // Wait until data is loaded, then render!
-    generateHeader();
-    renderAllHabits();
 
     async function saveHabits() {
         localStorage.setItem(storageKey, JSON.stringify(habits));

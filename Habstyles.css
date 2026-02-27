@@ -143,6 +143,14 @@ header {
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
+@media (max-width: 768px) {
+    .user-controls {
+        position: relative;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+}
+
 .card {
     background: var(--card-bg);
     backdrop-filter: blur(16px);
