@@ -124,11 +124,16 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function (e) {
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
             const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value;
             const errorMsg = document.getElementById('error-msg');
+            const loginBtn = document.querySelector('.login-btn');
 
             if (usernameInput.length < 3) {
                 errorMsg.textContent = "Username must be at least 3 characters long.";
@@ -136,9 +141,36 @@
                 return;
             }
 
-            // By storing the username in sessionStorage, we simulate logging in as that particular user
-            sessionStorage.setItem('habit_currentUser', usernameInput);
-            window.location.href = 'Habit.html';
+            loginBtn.textContent = "Syncing...";
+            loginBtn.disabled = true;
+
+            try {
+                const userRef = doc(db, "users", usernameInput);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    if (userData.password !== passwordInput) {
+                        errorMsg.textContent = "Incorrect password!";
+                        errorMsg.style.display = 'block';
+                        loginBtn.textContent = "Sign In / Register";
+                        loginBtn.disabled = false;
+                        return;
+                    }
+                } else {
+                    // Register new user 
+                    await setDoc(userRef, { password: passwordInput, habits: [] });
+                }
+
+                sessionStorage.setItem('habit_currentUser', usernameInput);
+                window.location.href = 'Habit.html';
+            } catch (error) {
+                console.error("Firebase Auth Error:", error);
+                errorMsg.textContent = "Database connection error. Check API configuration.";
+                errorMsg.style.display = 'block';
+                loginBtn.textContent = "Sign In / Register";
+                loginBtn.disabled = false;
+            }
         });
 
         // Auto-redirect if already logged in previously

@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
+import { db } from './firebase-config.js';
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+document.addEventListener('DOMContentLoaded', async () => {
     const monthDisplay = document.getElementById('month-display');
     const habitsListEl = document.getElementById('habits-list');
     const daysHeaderEl = document.getElementById('days-header');
@@ -12,28 +15,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const vibrantColors = ["#3b82f6", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b", "#10b981", "#06b6d4", "#a855f7", "#ef4444", "#14b8a6"];
 
     const currentUser = sessionStorage.getItem('habit_currentUser');
-    if (!currentUser) {
-        window.location.href = 'HabitLogin.html';
-        return;
-    }
+    const userControls = document.querySelector('.user-controls');
 
-    const welcomeEl = document.getElementById('welcome-user');
-    if (welcomeEl) {
-        welcomeEl.textContent = `User: ${currentUser}`;
-    }
-
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+    if (currentUser) {
+        userControls.innerHTML = `
+            <span id="welcome-user">User: ${currentUser}</span>
+            <button id="logout-btn" title="Logout">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+                </svg>
+                Logout
+            </button>
+        `;
+        document.getElementById('logout-btn').addEventListener('click', () => {
             sessionStorage.removeItem('habit_currentUser');
+            window.location.reload();
+        });
+    } else {
+        userControls.innerHTML = `
+            <button id="login-nav-btn" title="Login" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif; font-weight: 600;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+                Sign In
+            </button>
+        `;
+        document.getElementById('login-nav-btn').addEventListener('click', () => {
             window.location.href = 'HabitLogin.html';
         });
     }
 
-    const storageKey = `habits_${currentUser}`;
-    const monthIdKey = `monthId_${currentUser}`;
+    const storageKey = currentUser ? `habits_${currentUser}` : 'habits_guest';
+    const monthIdKey = currentUser ? `monthId_${currentUser}` : 'monthId_guest';
 
-    let habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let habits = [];
+    if (currentUser) {
+        try {
+            const userSnap = await getDoc(doc(db, "users", currentUser));
+            if (userSnap.exists() && userSnap.data().habits) {
+                habits = userSnap.data().habits;
+            } else {
+                habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+            }
+        } catch (error) {
+            console.error("Firebase read error", error);
+            habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+        }
+    } else {
+        habits = JSON.parse(localStorage.getItem(storageKey)) || [];
+    }
+
 
     // Assign colors to any existing habits that might literally not have one
     habits.forEach((habit, index) => {
@@ -61,8 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     monthDisplay.textContent = monthName;
 
-    function saveHabits() {
+    async function saveHabits() {
         localStorage.setItem(storageKey, JSON.stringify(habits));
+        if (currentUser) {
+            try {
+                await setDoc(doc(db, "users", currentUser), { habits: habits }, { merge: true });
+            } catch (error) {
+                console.error("Firebase sync error: ", error);
+            }
+        }
     }
 
     function createEmptyDays() {
@@ -299,6 +339,70 @@ document.addEventListener('DOMContentLoaded', () => {
     generateHeader();
     renderAllHabits();
 
+    function checkReminder() {
+        if (habits.length === 0) return;
+
+        const currentHour = new Date().getHours();
+
+        if (currentHour >= 21) {
+            const todayIndex = today.getDate() - 1;
+            const anyCheckedToday = habits.some(habit => habit.days && habit.days[todayIndex] === true);
+
+            const reminderKey = `reminder_shown_${today.getDate()}_${currentUser}`;
+            const reminderShown = sessionStorage.getItem(reminderKey);
+
+            if (!anyCheckedToday && !reminderShown) {
+                showReminder(reminderKey);
+            }
+        }
+    }
+
+    function showReminder(reminderKey) {
+        const toast = document.createElement('div');
+        toast.className = 'reminder-toast';
+        toast.innerHTML = `
+            <div class="reminder-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+            </div>
+            <div class="reminder-content">
+                <h4>Friendly Reminder!</h4>
+                <p>It's past 9 PM and you haven't checked off any habits today. Try to keep your streak going!</p>
+            </div>
+            <button class="reminder-close" aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        `;
+
+        document.body.appendChild(toast);
+
+        // Mark as shown so we don't spam the user perfectly
+        sessionStorage.setItem(reminderKey, 'true');
+
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 300); // slight delay so it pops up after page fully loads smoothly
+
+        const closeBtn = toast.querySelector('.reminder-close');
+        closeBtn.addEventListener('click', () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        });
+
+        // Auto remove
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 12000);
+    }
+
     setTimeout(() => {
         const tableScroll = document.querySelector('.table-scroll');
         const headerDaysContainer = document.querySelector('.header-row .days-container');
@@ -313,5 +417,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableScroll.scrollTo({ left: targetCol.offsetLeft - stickyWidth, behavior: 'smooth' });
             }
         }
+
+        // Execute reminder logic after init
+        checkReminder();
     }, 100);
 });

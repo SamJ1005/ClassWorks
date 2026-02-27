@@ -595,3 +595,63 @@ header {
     color: var(--text-muted);
     font-weight: 600;
 }
+
+/* NOTIFICATION REMINDER */
+.reminder-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transform: translateX(120%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 350px;
+}
+
+.reminder-toast.show {
+    transform: translateX(0);
+}
+
+.reminder-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.reminder-content {
+    flex: 1;
+}
+
+.reminder-content h4 {
+    color: var(--text-main);
+    margin-bottom: 0.3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.reminder-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.reminder-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.2rem;
+    transition: color 0.2s;
+    display: flex;
+}
+
+.reminder-close:hover {
+    color: var(--danger);
+}
